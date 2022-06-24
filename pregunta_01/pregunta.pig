@@ -21,4 +21,4 @@ data = LOAD 'data.tsv' USING PigStorage('\t')
 
 group_cols = GROUP data by(col_a);
 count_cols = FOREACH group_cols GENERATE group, COUNT(data);
-STORE count_cols INTO 'output';
+STORE count_cols INTO 'output'  USING PigStorage (',');
