@@ -22,4 +22,4 @@ data = LOAD 'data.tsv' USING PigStorage('\t')
 order_cols = ORDER data BY col_c ASC;
 top_5 = LIMIT order_cols 5;
 select_cols = FOREACH top_5 GENERATE col_c;
-STORE select_cols INTO 'output'  USING PigStorage (',');
+STORE select_cols INTO 'output' USING PigStorage (',');
