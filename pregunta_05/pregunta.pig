@@ -15,7 +15,7 @@ $ pig -x local -f pregunta.pig
 data = LOAD 'data.tsv' USING PigStorage('\t')
   AS (
         col_a:chararray,
-        col_b:bag{t: tuple(p:int)},
+        col_b:bag{t: tuple(p:chararray)},
         col_c:map[]
 
 );
