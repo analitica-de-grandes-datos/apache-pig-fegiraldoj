@@ -41,5 +41,5 @@ data = LOAD 'data.csv' USING PigStorage(',')
         col_f:int
 );
 
-subset = FOREACH data GENERATE CONCAT(col_b, '@', col_c)
+subset = FOREACH data GENERATE CONCAT(col_b, '@', col_c);
 STORE subset INTO 'output' USING PigStorage (',');
