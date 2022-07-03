@@ -29,6 +29,6 @@ data = LOAD 'data.csv' USING PigStorage(',')
         col_f:int
 );
 
-subset = FOREACH data GENERATE col_b, col_e
+subset = FOREACH data GENERATE col_b, col_e;
 filter_cols = FILTER subset BY (col_e == 'blue' AND col_b MATCHES '.*Z.*');
 STORE filter_cols INTO 'output' USING PigStorage (',');
