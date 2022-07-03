@@ -19,4 +19,18 @@ evaluación, pig sera eejcutado ejecutado en modo local:
 $ pig -x local -f pregunta.pig
 
 */
+data = LOAD 'data.csv' USING PigStorage(',')
+  AS (
+        col_a:chararray,
+        col_b:chararray,
+        col_c:chararray,
+        col_d:chararray,
+        col_e:chararray,
+        col_f:int
+);
+
+subset = FOREACH data GENERATE col_e
+filter_cols = FILTER subset BY NOT(col_e >= 'b*' AND col_e < 'c*');
+STORE filter_cols INTO 'output' USING PigStorage (',');
+
 
