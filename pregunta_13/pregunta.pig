@@ -32,5 +32,5 @@ data = LOAD 'data.csv' USING PigStorage(',')
 );
 
 subset = FOREACH data GENERATE col_e
-filter_cols = FILTER subset BY (col_e >= 'b*' AND col_e > 'c*');
+filter_cols = FILTER subset BY (col_e >= 'b*' AND col_e < 'c*');
 STORE filter_cols INTO 'output' USING PigStorage (',');
