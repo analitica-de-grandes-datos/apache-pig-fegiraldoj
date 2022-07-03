@@ -32,6 +32,6 @@ data = LOAD 'data.csv' USING PigStorage(',')
 );
 
 subset = FOREACH data GENERATE col_e;
-filter_cols = FILTER subset BY (col_e MATCHES '.*b.*);
+filter_cols = FILTER subset BY (col_e MATCHES '.*b.*');
 STORE filter_cols INTO 'output' USING PigStorage (',');
 
