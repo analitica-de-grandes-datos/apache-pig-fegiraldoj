@@ -32,5 +32,6 @@ data = LOAD 'data.csv' USING PigStorage(',')
 
 subset = FOREACH data GENERATE col_c, SIZE(col_c) AS col_size;
 order_cols = ORDER subset BY col_size DESC, col_c ASC;
-STORE order_cols INTO 'output' USING PigStorage (',');
+limit_cols = LIMIT order_cols 5;
+STORE limit_cols INTO 'output' USING PigStorage (',');
 
