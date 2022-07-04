@@ -44,5 +44,24 @@ data = LOAD 'data.csv' USING PigStorage(',')
 );
 
 subset = FOREACH data GENERATE col_d, ToDate(col_d,'yyyy-MM-dd') AS fecha;
-dias = FOREACH subset GENERATE col_d, ToString(fecha,'dd'), ToString(fecha,'d'), LOWER(ToString(fecha,'EEE')), LOWER(ToString(fecha,'EEEE'));
-STORE dias INTO 'output' USING PigStorage (',');
+dias = FOREACH subset GENERATE col_d, ToString(fecha,'dd') AS dia, ToString(fecha,'d') AS dia_corto, LOWER(ToString(fecha,'EEE')) AS nom_dia_corto, LOWER(ToString(fecha,'EEEE')) AS nom_dia;
+traducir_dias = FOREACH dias GENERATE   col_d, dia, dia_corto,
+                                        (CASE nom_dia_corto
+                                                WHEN 'mon' THEN 'lun'
+                                                WHEN 'tue' THEN 'mar'
+                                                WHEN 'wed' THEN 'mie'
+                                                WHEN 'thu' THEN 'jue'
+                                                WHEN 'fri' THEN 'vie'
+                                                WHEN 'sat' THEN 'sab'
+                                                WHEN 'sun' THEN 'dom'
+                                                ELSE nom_mes_corto END),
+                                        (CASE nom_dia
+                                                WHEN 'monday' THEN 'lunes'
+                                                WHEN 'tuesday' THEN 'martes'
+                                                WHEN 'wednesday' THEN 'miercoles'
+                                                WHEN 'thursday' THEN 'jueves'
+                                                WHEN 'friday' THEN 'viernes'
+                                                WHEN 'saturday' THEN 'sabado'
+                                                WHEN 'sunday' THEN 'domingo'
+                                                ELSE nom_mes_corto END);
+STORE traducir_dias INTO 'output' USING PigStorage (',');

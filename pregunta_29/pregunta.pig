@@ -44,5 +44,17 @@ data = LOAD 'data.csv' USING PigStorage(',')
 );
 
 subset = FOREACH data GENERATE col_d, ToDate(col_d,'yyyy-MM-dd') AS fecha;
-meses = FOREACH subset GENERATE col_d, LOWER(ToString(fecha,'MMM')), ToString(fecha,'MM'), GetMonth(fecha);
-STORE meses INTO 'output' USING PigStorage (',');
+meses = FOREACH subset GENERATE col_d, 
+                                LOWER(ToString(fecha,'MMM')) AS nom_mes_corto, 
+                                ToString(fecha,'MM') AS mes, 
+                                GetMonth(fecha) AS mes_corto;
+traducir_meses = FOREACH meses GENERATE col_d, 
+                                        (CASE nom_mes_corto
+                                                WHEN 'jan' THEN 'ene'
+                                                WHEN 'apr' THEN 'abr'
+                                                WHEN 'aug' THEN 'ago'
+                                                WHEN 'dec' THEN 'dic'
+                                                ELSE nom_mes_corto END),
+                                        mes,
+                                        mes_corto;
+STORE traducir_meses INTO 'output' USING PigStorage (',');
