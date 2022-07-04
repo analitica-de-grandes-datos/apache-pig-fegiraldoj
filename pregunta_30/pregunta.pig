@@ -33,4 +33,16 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+data = LOAD 'data.csv' USING PigStorage(',')
+  AS (
+        col_a:chararray,
+        col_b:chararray,
+        col_c:chararray,
+        col_d:chararray,
+        col_e:chararray,
+        col_f:int
+);
 
+subset = FOREACH data GENERATE col_d, ToDate(col_d,'yyyy-MM-dd') AS fecha;
+dias = FOREACH subset GENERATE col_d, ToString(fecha,'dd'), ToString(fecha,'d'), LOWER(ToString(fecha,'EEE')), LOWER(ToString(fecha,'EEEE'));
+STORE dias INTO 'output' USING PigStorage (',');
