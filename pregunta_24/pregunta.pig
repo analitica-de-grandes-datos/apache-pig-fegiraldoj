@@ -18,5 +18,16 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+data = LOAD 'data.csv' USING PigStorage(',')
+  AS (
+        col_a:chararray,
+        col_b:chararray,
+        col_c:chararray,
+        col_d:chararray,
+        col_e:chararray,
+        col_f:int
+);
 
+subset = FOREACH data GENERATE SUBSTRING(col_d,5,7);
+STORE subset INTO 'output' USING PigStorage (',');
 
