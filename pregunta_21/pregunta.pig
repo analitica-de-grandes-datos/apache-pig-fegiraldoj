@@ -32,5 +32,5 @@ data = LOAD 'data.csv' USING PigStorage(',')
 );
 
 subset = FOREACH data GENERATE col_b, col_e;
-filter_cols = FILTER subset BY col_e IN ('blue','green'));
+filter_cols = FILTER subset BY col_e IN ('blue','green');
 STORE filter_cols INTO 'output' USING PigStorage (',');
