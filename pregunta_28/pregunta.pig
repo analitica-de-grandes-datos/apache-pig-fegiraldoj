@@ -32,5 +32,5 @@ data = LOAD 'data.csv' USING PigStorage(',')
         col_f:int
 );
 
-subset = FOREACH data GENERATE SUBSTRING(col_d,0,4), SUBSTRING(col_e,2,4);
+subset = FOREACH data GENERATE SUBSTRING(col_d,0,4), SUBSTRING(col_d,2,4);
 STORE subset INTO 'output' USING PigStorage (',');
