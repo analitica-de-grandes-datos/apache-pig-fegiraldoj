@@ -33,4 +33,28 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+data = LOAD 'data.csv' USING PigStorage(',')
+  AS (
+        col_a:chararray,
+        col_b:chararray,
+        col_c:chararray,
+        col_d:chararray,
+        col_e:chararray,
+        col_f:int
+);
 
+subset = FOREACH data GENERATE col_d, ToDate(col_d,'yyyy-MM-dd') AS fecha;
+meses = FOREACH subset GENERATE col_d, 
+                                LOWER(ToString(fecha,'MMM')) AS nom_mes_corto, 
+                                ToString(fecha,'MM') AS mes, 
+                                GetMonth(fecha) AS mes_corto;
+traducir_meses = FOREACH meses GENERATE col_d, 
+                                        (CASE nom_mes_corto
+                                                WHEN 'jan' THEN 'ene'
+                                                WHEN 'apr' THEN 'abr'
+                                                WHEN 'aug' THEN 'ago'
+                                                WHEN 'dec' THEN 'dic'
+                                                ELSE nom_mes_corto END),
+                                        mes,
+                                        mes_corto;
+STORE traducir_meses INTO 'output' USING PigStorage (',');
