@@ -54,7 +54,7 @@ traducir_dias = FOREACH dias GENERATE   col_d, dia, dia_corto,
                                                 WHEN 'fri' THEN 'vie'
                                                 WHEN 'sat' THEN 'sab'
                                                 WHEN 'sun' THEN 'dom'
-                                                ELSE nom_mes_corto END),
+                                                ELSE nom_dia_corto END),
                                         (CASE nom_dia
                                                 WHEN 'monday' THEN 'lunes'
                                                 WHEN 'tuesday' THEN 'martes'
@@ -63,5 +63,5 @@ traducir_dias = FOREACH dias GENERATE   col_d, dia, dia_corto,
                                                 WHEN 'friday' THEN 'viernes'
                                                 WHEN 'saturday' THEN 'sabado'
                                                 WHEN 'sunday' THEN 'domingo'
-                                                ELSE nom_mes_corto END);
+                                                ELSE nom_dia END);
 STORE traducir_dias INTO 'output' USING PigStorage (',');
